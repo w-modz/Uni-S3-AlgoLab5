@@ -7,13 +7,8 @@
 #include <sstream>
 
 // TODO: 
-// Remove redundancies,
-// Change all usage of: 
-//	this->parent->parent
-//	to
-//	getGrandparent()
-//	Test insert() for crashing in edgecases
-//	Benchmark insert()
+// Test insert() for crashing in edgecases
+// Benchmark insert()
 
 template<typename T>
 struct Node
@@ -223,25 +218,25 @@ public:
 		{
 			return nullptr;
 		}
-		else if (!current_node->parent->parent)
+		else if (!getGrandparent(current_node))
 		{
 			return nullptr;
 		}
-		if (current_node->parent == current_node->parent->parent->left)
+		if (current_node->parent == getGrandparent(current_node)->left)
 		{
-			if (!current_node->parent->parent->right)
+			if (!getGrandparent(current_node)->right)
 			{
 				return nullptr;
 			}
-			return current_node->parent->parent->right;
+			return getGrandparent(current_node)->right;
 		}
 		else
 		{
-			if (!current_node->parent->parent->left)
+			if (!getGrandparent(current_node)->left)
 			{
 				return nullptr;
 			}
-			return current_node->parent->parent->left;
+			return getGrandparent(current_node)->left;
 		}
 	}
 

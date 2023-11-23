@@ -12,16 +12,16 @@ namespace RedBlackTreeTests
 		
 		TEST_METHOD(InsertTest1)
 		{
-			RBT<int>* tree = new RBT<int>;
-			tree->insert(8);
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8,greater<int>);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 		}
 		TEST_METHOD(InsertTest2)
 		{
-			RBT<int>* tree = new RBT<int>;
-			tree->insert(8);
-			tree->insert(18);
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 			Assert::IsFalse(tree->getRoot()->right->is_black);
@@ -29,10 +29,10 @@ namespace RedBlackTreeTests
 		}
 		TEST_METHOD(InsertTest3)
 		{
-			RBT<int>* tree = new RBT<int>;
-			tree->insert(8);
-			tree->insert(18);
-			tree->insert(5);
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
+			tree->insert(5, greater<int>);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 			Assert::IsFalse(tree->getRoot()->left->is_black);
@@ -42,11 +42,11 @@ namespace RedBlackTreeTests
 		}
 		TEST_METHOD(InsertTest4)
 		{
-			RBT<int>* tree = new RBT<int>;
-			tree->insert(8);
-			tree->insert(18);
-			tree->insert(5);
-			tree->insert(15);
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
+			tree->insert(5, greater<int>);
+			tree->insert(15, greater<int>);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 			Assert::IsTrue(tree->getRoot()->left->is_black);
@@ -58,12 +58,12 @@ namespace RedBlackTreeTests
 		}
 		TEST_METHOD(InsertTest5)
 		{
-			RBT<int>* tree = new RBT<int>;
-			tree->insert(8);
-			tree->insert(18);
-			tree->insert(5);
-			tree->insert(15);
-			tree->insert(17);
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
+			tree->insert(5, greater<int>);
+			tree->insert(15, greater<int>);
+			tree->insert(17, greater<int>);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 
@@ -82,13 +82,13 @@ namespace RedBlackTreeTests
 
 		TEST_METHOD(InsertTest6)
 		{
-			RBT<int>* tree = new RBT<int>;
-			tree->insert(8);
-			tree->insert(18);
-			tree->insert(5);
-			tree->insert(15);
-			tree->insert(17);
-			tree->insert(25);
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
+			tree->insert(5, greater<int>);
+			tree->insert(15, greater<int>);
+			tree->insert(17, greater<int>);
+			tree->insert(25, greater<int>);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 
@@ -110,14 +110,14 @@ namespace RedBlackTreeTests
 
 		TEST_METHOD(InsertTest7)
 		{
-			RBT<int>* tree = new RBT<int>;
-			tree->insert(8);
-			tree->insert(18);
-			tree->insert(5);
-			tree->insert(15);
-			tree->insert(17);
-			tree->insert(25);
-			tree->insert(40);
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
+			tree->insert(5, greater<int>);
+			tree->insert(15, greater<int>);
+			tree->insert(17, greater<int>);
+			tree->insert(25, greater<int>);
+			tree->insert(40, greater<int>);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 
@@ -142,15 +142,15 @@ namespace RedBlackTreeTests
 
 		TEST_METHOD(InsertTest8)
 		{
-			RBT<int>* tree = new RBT<int>;
-			tree->insert(8);
-			tree->insert(18);
-			tree->insert(5);
-			tree->insert(15);
-			tree->insert(17);
-			tree->insert(25);
-			tree->insert(40);
-			tree->insert(80);
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
+			tree->insert(5, greater<int>);
+			tree->insert(15, greater<int>);
+			tree->insert(17, greater<int>);
+			tree->insert(25, greater<int>);
+			tree->insert(40, greater<int>);
+			tree->insert(80, greater<int>);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(17, tree->getRoot()->data);
 

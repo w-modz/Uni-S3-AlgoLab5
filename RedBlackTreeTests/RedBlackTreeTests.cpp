@@ -13,15 +13,15 @@ namespace RedBlackTreeTests
 		TEST_METHOD(InsertTest1)
 		{
 			RBT<int>* tree = new RBT<int>;
-			tree->Insert(8);
+			tree->insert(8);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 		}
 		TEST_METHOD(InsertTest2)
 		{
 			RBT<int>* tree = new RBT<int>;
-			tree->Insert(8);
-			tree->Insert(18);
+			tree->insert(8);
+			tree->insert(18);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 			Assert::IsFalse(tree->getRoot()->right->is_black);
@@ -30,9 +30,9 @@ namespace RedBlackTreeTests
 		TEST_METHOD(InsertTest3)
 		{
 			RBT<int>* tree = new RBT<int>;
-			tree->Insert(8);
-			tree->Insert(18);
-			tree->Insert(5);
+			tree->insert(8);
+			tree->insert(18);
+			tree->insert(5);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 			Assert::IsFalse(tree->getRoot()->left->is_black);
@@ -43,10 +43,10 @@ namespace RedBlackTreeTests
 		TEST_METHOD(InsertTest4)
 		{
 			RBT<int>* tree = new RBT<int>;
-			tree->Insert(8);
-			tree->Insert(18);
-			tree->Insert(5);
-			tree->Insert(15);
+			tree->insert(8);
+			tree->insert(18);
+			tree->insert(5);
+			tree->insert(15);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 			Assert::IsTrue(tree->getRoot()->left->is_black);
@@ -59,11 +59,11 @@ namespace RedBlackTreeTests
 		TEST_METHOD(InsertTest5)
 		{
 			RBT<int>* tree = new RBT<int>;
-			tree->Insert(8);
-			tree->Insert(18);
-			tree->Insert(5);
-			tree->Insert(15);
-			tree->Insert(17);
+			tree->insert(8);
+			tree->insert(18);
+			tree->insert(5);
+			tree->insert(15);
+			tree->insert(17);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 
@@ -83,12 +83,12 @@ namespace RedBlackTreeTests
 		TEST_METHOD(InsertTest6)
 		{
 			RBT<int>* tree = new RBT<int>;
-			tree->Insert(8);
-			tree->Insert(18);
-			tree->Insert(5);
-			tree->Insert(15);
-			tree->Insert(17);
-			tree->Insert(25);
+			tree->insert(8);
+			tree->insert(18);
+			tree->insert(5);
+			tree->insert(15);
+			tree->insert(17);
+			tree->insert(25);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 
@@ -111,13 +111,13 @@ namespace RedBlackTreeTests
 		TEST_METHOD(InsertTest7)
 		{
 			RBT<int>* tree = new RBT<int>;
-			tree->Insert(8);
-			tree->Insert(18);
-			tree->Insert(5);
-			tree->Insert(15);
-			tree->Insert(17);
-			tree->Insert(25);
-			tree->Insert(40);
+			tree->insert(8);
+			tree->insert(18);
+			tree->insert(5);
+			tree->insert(15);
+			tree->insert(17);
+			tree->insert(25);
+			tree->insert(40);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(8, tree->getRoot()->data);
 
@@ -143,14 +143,14 @@ namespace RedBlackTreeTests
 		TEST_METHOD(InsertTest8)
 		{
 			RBT<int>* tree = new RBT<int>;
-			tree->Insert(8);
-			tree->Insert(18);
-			tree->Insert(5);
-			tree->Insert(15);
-			tree->Insert(17);
-			tree->Insert(25);
-			tree->Insert(40);
-			tree->Insert(80);
+			tree->insert(8);
+			tree->insert(18);
+			tree->insert(5);
+			tree->insert(15);
+			tree->insert(17);
+			tree->insert(25);
+			tree->insert(40);
+			tree->insert(80);
 			Assert::IsTrue(tree->getRoot()->is_black);
 			Assert::AreEqual(17, tree->getRoot()->data);
 

@@ -7,34 +7,33 @@
 #include <sstream>
 
 // TODO: 
-// Normalize functiion naming convention,
 // Test in-order and pre-order traversals
 // Remove redundancies,
 // Change all usage of: 
 //	this->parent->parent
 //	to
 //	getGrandparent()
-//	Test Insert() for crashing in edgecases
-//	Benchmark Insert()
+//	Test insert() for crashing in edgecases
+//	Benchmark insert()
 
 template<typename T>
-struct node
+struct Node
 {
 	T data;
-	node* parent;
-	node* left;
-	node* right;
+	Node* parent;
+	Node* left;
+	Node* right;
 	bool is_black;
 
-	node(const T& data, node* parent, node* left, node* right, bool is_black)
+	Node(const T& data, Node* parent, Node* left, Node* right, bool is_black)
 		: data(data), parent(parent), left(left), right(right), is_black(is_black)
 	{}
 
-	node(const T& data)
+	Node(const T& data)
 		: data(data), parent(nullptr), left(nullptr), right(nullptr), is_black(true)
 	{}
 
-	~node()
+	~Node()
 	{
 		if (parent != nullptr)
 		{
@@ -54,47 +53,47 @@ struct node
 };
 
 template<typename T>
-class RBT
+class RedBlackTree
 {
 private:
 	uint32_t size;
-	node<T>* root;
+	Node<T>* root;
 public:
-	RBT() noexcept
+	RedBlackTree() noexcept
 		: root(nullptr), size(0)
 	{}
 
-	~RBT()
+	~RedBlackTree()
 	{
 		clear();
 	}
 
-	uint32_t get_size() const noexcept
+	uint32_t getSize() const noexcept
 	{
 		return size;
 	}
 
-	node<T>* getRoot() const noexcept
+	Node<T>* getRoot() const noexcept
 	{
 		return root;
 	}
 	template <typename Comp>
-	void Insert(T new_data, Comp greater)
+	void insert(T new_data, Comp greater)
 	{
 		// No root edgecase
 		if (root == nullptr)
 		{
-			root = new node<T>(new_data);
+			root = new Node<T>(new_data);
 			root->is_black = true;
 			size++;
 			return;
 		}
 		else
 		{
-			node<T>* new_node = new node<T>(new_data);
+			Node<T>* new_node = new Node<T>(new_data);
 			bool inserted = false;
-			node<T>* previous_node = nullptr;
-			node<T>* current_node = root;
+			Node<T>* previous_node = nullptr;
+			Node<T>* current_node = root;
 			bool is_less;
 			// while() loop for binary search insertion
 			while (!inserted)
@@ -127,7 +126,7 @@ public:
 				}
 			}
 			new_node->is_black = false;
-			// Check for violation of RBT properties after insertion
+			// Check for violation of RedBlackTree properties after insertion
 			if (new_node->parent->is_black)
 			{
 				size++;
@@ -141,8 +140,8 @@ public:
 		size++;
 	}
 
-	// Function for fixing violations of RBT properties after an insertion operation
-	void validate(node<T>* new_node)
+	// Function for fixing violations of RedBlackTree properties after an insertion operation
+	void validate(Node<T>* new_node)
 	{
 		// Calling of function implies new_node is red
 		if (new_node->parent->is_black)
@@ -150,7 +149,7 @@ public:
 			return;
 		}
 
-		if (!is_uncle_black(new_node))
+		if (!isUncleBlack(new_node))
 		{
 			// Recoloring and moving violation upward in the tree
 			recolor(new_node);
@@ -186,16 +185,16 @@ public:
 			switch (rotation)
 			{
 			case 1:
-				LLRotation(getGrandparent(new_node), new_node->parent);
+				leftLeftRotation(getGrandparent(new_node), new_node->parent);
 				break;
 			case 2:
-				LRRotation(getGrandparent(new_node), new_node->parent, new_node);
+				leftRightRotation(getGrandparent(new_node), new_node->parent, new_node);
 				break;
 			case 3:
-				RRRotation(getGrandparent(new_node), new_node->parent);
+				rightRightRotation(getGrandparent(new_node), new_node->parent);
 				break;
 			case 4:
-				RLRotation(getGrandparent(new_node), new_node->parent, new_node);
+				rightLeftRotation(getGrandparent(new_node), new_node->parent, new_node);
 				break;
 			default:
 				break;
@@ -205,7 +204,7 @@ public:
 		root->is_black = true;
 	}
 	// Function for recoloring tree if current_node and its parent are red
-	void recolor(node<T>* current_node)
+	void recolor(Node<T>* current_node)
 	{
 		if (current_node == root || getGrandparent(current_node) == nullptr)
 		{
@@ -219,7 +218,7 @@ public:
 		}
 	}
 	// Function to avoid out-of-scope errors and simplify validation algorithm
-	node<T>* getUncle(node<T>* current_node)
+	Node<T>* getUncle(Node<T>* current_node)
 	{
 		if (!current_node->parent)
 		{
@@ -247,7 +246,7 @@ public:
 		}
 	}
 
-	void LLRotation(node<T>* current_parent, node<T>* lchild)
+	void leftLeftRotation(Node<T>* current_parent, Node<T>* lchild)
 	{
 		rotateRight(current_parent, lchild);
 		bool temp = current_parent->is_black;
@@ -261,13 +260,13 @@ public:
 		}
 	}
 
-	void LRRotation(node<T>* current_parent, node<T>* lchild, node<T>* x)
+	void leftRightRotation(Node<T>* current_parent, Node<T>* lchild, Node<T>* x)
 	{
 		rotateLeft(lchild,x);
-		LLRotation(current_parent,x);
+		leftLeftRotation(current_parent,x);
 	}
 
-	void RRRotation(node<T>* current_parent, node<T>* rchild)
+	void rightRightRotation(Node<T>* current_parent, Node<T>* rchild)
 	{
 		rotateLeft(current_parent, rchild);
 		bool temp = current_parent->is_black;
@@ -282,13 +281,13 @@ public:
 		}
 	}
 
-	void RLRotation(node<T>* current_parent, node<T>* rchild, node<T>* x)
+	void rightLeftRotation(Node<T>* current_parent, Node<T>* rchild, Node<T>* x)
 	{
 		rotateRight(rchild,x);
-		RRRotation(current_parent,x);
+		rightRightRotation(current_parent,x);
 	}
 
-	node<T>* getGrandparent(node<T>* current_node)
+	Node<T>* getGrandparent(Node<T>* current_node)
 	{
 		if (!current_node->parent)
 		{
@@ -303,7 +302,7 @@ public:
 			return current_node->parent->parent;
 		}
 	}
-	bool is_uncle_black(node<T>* current_node)
+	bool isUncleBlack(Node<T>* current_node)
 	{
 		if (getUncle(current_node) == nullptr)
 		{
@@ -311,9 +310,9 @@ public:
 		}
 		return getUncle(current_node)->is_black;
 	}
-	void rotateLeft(node<T>* current_parent, node<T>* rchild)
+	void rotateLeft(Node<T>* current_parent, Node<T>* rchild)
 	{
-		node <T>* temp = rchild->left;
+		Node <T>* temp = rchild->left;
 		if (current_parent == root)
 		{
 			root = rchild;
@@ -341,9 +340,9 @@ public:
 		}
 	}
 
-	void rotateRight(node<T>* current_parent, node<T>* lchild)
+	void rotateRight(Node<T>* current_parent, Node<T>* lchild)
 	{
-		node<T>* temp = lchild->right;
+		Node<T>* temp = lchild->right;
 		if (current_parent == root)
 		{
 			root = lchild;
@@ -372,7 +371,7 @@ public:
 	}
 
 	// Function that visits the root, traverses the left subtree, then the right 
-	void preorder(node<T>* root, std::list<T>* list)
+	void preorder(Node<T>* root, std::list<T>* list)
 	{
 		if (root == nullptr)
 		{
@@ -383,7 +382,7 @@ public:
 		preorder(root->right, list);
 	}
 	// Function that traverses the left subtree, visits the root and traverses the right subtree
-	void inorder(node<T>* root, std::list<T>* list)
+	void inorder(Node<T>* root, std::list<T>* list)
 	{
 		if (root == nullptr)
 		{
@@ -394,7 +393,7 @@ public:
 		inorder(root->right, list);
 	}
 
-	void print_traversal(std::string str)
+	void printTraversal(std::string str)
 	{
 		std::list<int>* preorder_list = new std::list<int>;
 		if (str == "preorder")
@@ -416,8 +415,8 @@ public:
 		}
 		std::cout << "\n";
 	}
-	// Function that return the height of the given node's subtree
-	uint32_t findHeight(node<T>* root)
+	// Function that return the height of the given Node's subtree
+	uint32_t findHeight(Node<T>* root)
 	{
 		if (root == nullptr)
 		{
@@ -428,7 +427,7 @@ public:
 		return std::max(left_height, right_height) + 1;
 	}
 
-	std::string to_string(node<T>* root)
+	std::string toString(Node<T>* root)
 	{
 		std::ostringstream output_stream;
 		output_stream << "---RBT Structure---\nNotation: (data,color,parent data)\n";
@@ -447,7 +446,7 @@ public:
 		return output_stream.str();
 	}
 	// Returns the ith level of rbt as string
-	std::string getLevel(node<T>* root, int level)
+	std::string getLevel(Node<T>* root, int level)
 	{
 		std::ostringstream output_stream;
 		if (root == nullptr)
@@ -487,9 +486,9 @@ public:
 		return output_stream.str();
 	}
 	template <typename Comp>
-	node<T>* getNode(T element,Comp greater)
+	Node<T>* getNode(T element,Comp greater)
 	{
-		node<T>* current_node = root;
+		Node<T>* current_node = root;
 		while (true)
 		{
 			if (current_node == nullptr)
@@ -511,14 +510,14 @@ public:
 		}
 	}
 
-	// Function that looks for the smallest value in the right subtree of a given node
-	node<T>* inorderSuccessor(node<T>* root)
+	// Function that looks for the smallest value in the right subtree of a given Node
+	Node<T>* inorderSuccessor(Node<T>* root)
 	{
 		if (root == nullptr || root->right == nullptr)
 		{
 			return nullptr;
 		}
-		node<T>* current_node = root->right;
+		Node<T>* current_node = root->right;
 		while (current_node->left != nullptr)
 		{
 			current_node = current_node->left;
@@ -526,13 +525,13 @@ public:
 		return current_node;
 	}
 
-	T get_min_node_data()
+	T getMinNodeData()
 	{
 		if (root == nullptr)
 		{
 			return NULL;
 		}
-		node<T>* current_node = root;
+		Node<T>* current_node = root;
 		while (current_node->left != nullptr)
 		{
 			current_node = current_node->left;
@@ -542,7 +541,7 @@ public:
 
 	void clear()
 	{
-		// clear() function makes use of the node's recursive deconstructors
+		// clear() function makes use of the Node's recursive deconstructors
 		delete root;
 		size = 0;
 		root = nullptr;
@@ -565,9 +564,9 @@ void test()
 	std::map<int, int> heights, root_data;
 	do
 	{
-		RBT<int> t;
+		RedBlackTree<int> t;
 		for (int i : v)
-			t.Insert(i, greater<int>);
+			t.insert(i, greater<int>);
 		++heights[t.findHeight(t.getRoot())];
 		++root_data[t.getRoot()->data];
 	} while (std::next_permutation(v.begin(), v.end()));
@@ -580,17 +579,17 @@ void test()
 
 int main()
 {
-	/*RBT<int>* tree = new RBT<int>;
-	tree->Insert(8);
-	tree->Insert(18);
-	tree->Insert(5);
-	tree->Insert(15);
-	tree->Insert(17);
-	tree->Insert(25);
-	tree->Insert(40);
-	tree->Insert(80);
-	std::cout << tree->to_string(tree->getRoot());
+	/*RedBlackTree<int>* tree = new RedBlackTree<int>;
+	tree->insert(8);
+	tree->insert(18);
+	tree->insert(5);
+	tree->insert(15);
+	tree->insert(17);
+	tree->insert(25);
+	tree->insert(40);
+	tree->insert(80);
+	std::cout << tree->toString(tree->getRoot());
 	std::cout << tree->findHeight(tree->getRoot());
-	std::cout << "\n" << tree->get_size();*/
+	std::cout << "\n" << tree->getSize();*/
 	test();
 }

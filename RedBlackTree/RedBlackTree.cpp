@@ -7,7 +7,6 @@
 #include <sstream>
 
 // TODO: 
-// Test in-order and pre-order traversals
 // Remove redundancies,
 // Change all usage of: 
 //	this->parent->parent
@@ -393,27 +392,29 @@ public:
 		inorder(root->right, list);
 	}
 
-	void printTraversal(std::string str)
+	std::string printTraversal(std::string str)
 	{
-		std::list<int>* preorder_list = new std::list<int>;
+		std::ostringstream output_stream;
+		std::list<int>* list = new std::list<int>;
 		if (str == "preorder")
 		{
-			preorder(root, preorder_list);
+			preorder(root, list);
 		}
 		else if (str == "inorder")
 		{
-			inorder(root, preorder_list);
+			inorder(root, list);
 		}
 		else
 		{
 			throw std::invalid_argument("invalid function argument");
 		}
 
-		for (std::list<int>::iterator i = preorder_list->begin(); i != preorder_list->end(); ++i)
+		for (std::list<int>::iterator i = list->begin(); i != list->end(); ++i)
 		{
-			std::cout << *i << " ";
+			output_stream << *i << " ";
 		}
-		std::cout << "\n";
+		output_stream << "\n";
+		return output_stream.str();
 	}
 	// Function that return the height of the given Node's subtree
 	uint32_t findHeight(Node<T>* root)
@@ -579,17 +580,18 @@ void test()
 
 int main()
 {
-	/*RedBlackTree<int>* tree = new RedBlackTree<int>;
-	tree->insert(8);
-	tree->insert(18);
-	tree->insert(5);
-	tree->insert(15);
-	tree->insert(17);
-	tree->insert(25);
-	tree->insert(40);
-	tree->insert(80);
+	RedBlackTree<int>* tree = new RedBlackTree<int>;
+	tree->insert(8, greater<int>);
+	tree->insert(18, greater<int>);
+	tree->insert(5, greater<int>);
+	tree->insert(15, greater<int>);
+	tree->insert(17, greater<int>);
+	tree->insert(25, greater<int>);
+	tree->insert(40, greater<int>);
+	tree->insert(80, greater<int>);
+	tree->printTraversal("inorder");
 	std::cout << tree->toString(tree->getRoot());
 	std::cout << tree->findHeight(tree->getRoot());
-	std::cout << "\n" << tree->getSize();*/
+	std::cout << "\n" << tree->getSize();
 	test();
 }

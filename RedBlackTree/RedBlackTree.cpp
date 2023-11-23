@@ -1,3 +1,6 @@
+// ALGO2 IS1 221A LAB03
+// Wiktor Modzelewski
+// mw53766@zut.edu.pl
 #include <iostream>
 #include <string>
 #include <ctime>
@@ -5,10 +8,6 @@
 #include <list>
 #include <algorithm>
 #include <sstream>
-
-// TODO: 
-// Test insert() for crashing in edgecases
-// Benchmark insert()
 
 template<typename T>
 struct Node
@@ -575,18 +574,44 @@ void test()
 
 int main()
 {
-	RedBlackTree<int>* tree = new RedBlackTree<int>;
-	tree->insert(8, greater<int>);
-	tree->insert(18, greater<int>);
-	tree->insert(5, greater<int>);
-	tree->insert(15, greater<int>);
-	tree->insert(17, greater<int>);
-	tree->insert(25, greater<int>);
-	tree->insert(40, greater<int>);
-	tree->insert(80, greater<int>);
-	tree->printTraversal("inorder");
-	std::cout << tree->toString(tree->getRoot());
-	std::cout << tree->findHeight(tree->getRoot());
-	std::cout << "\n" << tree->getSize();
+	const int MAX_ORDER = 7; // maximum order of insertion attempts
+	RedBlackTree <int>* rbt = new RedBlackTree <int>();
+	srand(time(NULL));
+	for (int o = 1; o <= MAX_ORDER; o++)
+	{
+		// insertion
+		const int n = pow(10, o); // data sample size
+		clock_t t1 = clock();
+		for (int i = 0; i < n; i++)
+		{
+			int so = rand() % 10000000 + 1; // random data to insert
+				rbt->insert(so, greater<int>);
+		}
+		clock_t t2 = clock();
+		std::cout << rbt->toString(rbt->getRoot()) << "\n";
+		std::cout << "RBT size: " << rbt->getSize() << "\n";
+		std::cout << "Total time of inserting = " << ((t2 - t1) / (double)CLOCKS_PER_SEC) * 1000 << "ms\n";
+		std::cout << "Average time of inserting = " << ((t2 - t1) / (double)CLOCKS_PER_SEC) * 1000 / n << "ms\n";
+		
+		// searching
+		const int m = pow(10, 4); // number of search attempts
+		int hits = 0; // number of found elements
+		t1 = clock();
+		for (int i = 0; i < m; i++)
+		{
+			int so = rand() % 10000000 + 1; // random data for searching
+				Node<int>*result = rbt->getNode(so, greater<int>);
+			if (result != NULL)
+				hits++;
+		}
+		t2 = clock();
+		std::cout << "Amount of hits: " << hits << "\n";
+		std::cout << "Total time of searching = " << ((t2 - t1) / (double)CLOCKS_PER_SEC) * 1000 << "ms\n";
+		std::cout << "Average time of searching = " << ((t2 - t1) / (double)CLOCKS_PER_SEC) * 1000 / m << "ms\n\n";
+		rbt->clear();
+	}
+	delete rbt;
+
 	test();
+	return 0;
 }

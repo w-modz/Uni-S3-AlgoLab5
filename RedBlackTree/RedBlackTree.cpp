@@ -7,8 +7,6 @@
 #include <sstream>
 
 // TODO: 
-// Remove redundant comments
-// Add more comments to methods/logic
 // Add comaparator input to Insert() function,
 // Normalize functiion naming convention,
 // Test in-order and pre-order traversals
@@ -84,6 +82,7 @@ public:
 
 	void Insert(T new_data)
 	{
+		// No root edgecase
 		if (root == nullptr)
 		{
 			root = new node<T>(new_data);
@@ -98,6 +97,7 @@ public:
 			node<T>* previous_node = nullptr;
 			node<T>* current_node = root;
 			bool is_less;
+			// while() loop for binary search insertion
 			while (!inserted)
 			{
 				if (current_node == nullptr)
@@ -128,7 +128,7 @@ public:
 				}
 			}
 			new_node->is_black = false;
-			// handles case l1
+			// Check for violation of RBT properties after insertion
 			if (new_node->parent->is_black)
 			{
 				size++;
@@ -136,23 +136,24 @@ public:
 			}
 			else
 			{
-				// this if block might be wrong due to interpretation
 				validate(new_node);
 			}
 		}
 		size++;
 	}
+
+	// Function for fixing violations of RBT properties after an insertion operation
 	void validate(node<T>* new_node)
 	{
-		// case l1 or l3
+		// Calling of function implies new_node is red
 		if (new_node->parent->is_black)
 		{
 			return;
 		}
 
-		// handles case l2
 		if (!is_uncle_black(new_node))
 		{
+			// Recoloring and moving violation upward in the tree
 			recolor(new_node);
 			if (getGrandparent(new_node) != nullptr)
 			{
@@ -201,10 +202,10 @@ public:
 				break;
 			}
 		}
+		// Making sure the proprery two is preserved after validation
 		root->is_black = true;
-		//validate(new_node);
 	}
-	// recursive function for recoloring when uncle of inserted node is red
+	// Function for recoloring tree if current_node and its parent are red
 	void recolor(node<T>* current_node)
 	{
 		if (current_node == root || getGrandparent(current_node) == nullptr)
@@ -217,9 +218,8 @@ public:
 		{
 			getGrandparent(current_node)->is_black = false;
 		}
-		//recolor(getGrandparent(current_node));
 	}
-
+	// Function to avoid out-of-scope errors and simplify validation algorithm
 	node<T>* getUncle(node<T>* current_node)
 	{
 		if (!current_node->parent)
@@ -447,7 +447,7 @@ public:
 		}
 		return output_stream.str();
 	}
-	// Returns the ith level of bst as string
+	// Returns the ith level of rbt as string
 	std::string getLevel(node<T>* root, int level)
 	{
 		std::ostringstream output_stream;
@@ -543,6 +543,7 @@ public:
 
 	void clear()
 	{
+		// clear() function makes use of the node's recursive deconstructors
 		delete root;
 		size = 0;
 		root = nullptr;
@@ -594,4 +595,3 @@ int main()
 	std::cout << "\n" << tree->get_size();*/
 	test();
 }
-

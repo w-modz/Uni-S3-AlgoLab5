@@ -175,5 +175,35 @@ namespace RedBlackTreeTests
 			Assert::IsFalse(tree->getRoot()->right->right->right->is_black);
 			Assert::AreEqual(80, tree->getRoot()->right->right->right->data);
 		}
+		TEST_METHOD(InorderTest)
+		{
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
+			tree->insert(5, greater<int>);
+			tree->insert(15, greater<int>);
+			tree->insert(17, greater<int>);
+			tree->insert(25, greater<int>);
+			tree->insert(40, greater<int>);
+			tree->insert(80, greater<int>);
+			std::string expected = "5 8 15 17 18 25 40 80 \n";
+			Assert::AreEqual(expected , tree->printTraversal("inorder"));
+		}
+
+		TEST_METHOD(PreorderTest)
+		{
+			RedBlackTree<int>* tree = new RedBlackTree<int>;
+			tree->insert(8, greater<int>);
+			tree->insert(18, greater<int>);
+			tree->insert(5, greater<int>);
+			tree->insert(15, greater<int>);
+			tree->insert(17, greater<int>);
+			tree->insert(25, greater<int>);
+			tree->insert(40, greater<int>);
+			tree->insert(80, greater<int>);
+
+			std::string expected = "17 8 5 15 25 18 40 80 \n";
+			Assert::AreEqual(expected, tree->printTraversal("preorder"));
+		}
 	};
 }

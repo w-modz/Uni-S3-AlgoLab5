@@ -7,7 +7,6 @@
 #include <sstream>
 
 // TODO: 
-// Add comaparator input to Insert() function,
 // Normalize functiion naming convention,
 // Test in-order and pre-order traversals
 // Remove redundancies,
@@ -79,8 +78,8 @@ public:
 	{
 		return root;
 	}
-
-	void Insert(T new_data)
+	template <typename Comp>
+	void Insert(T new_data, Comp greater)
 	{
 		// No root edgecase
 		if (root == nullptr)
@@ -113,14 +112,14 @@ public:
 					}
 					inserted = true;
 				}
-				else if (new_node->data == current_node->data) return;
-				else if (new_node->data < current_node->data)
+				else if (!greater(new_node->data,current_node->data) && !greater(current_node->data, new_node->data)) return;
+				else if (greater(current_node->data, new_node->data))
 				{
 					previous_node = current_node;
 					current_node = current_node->left;
 					is_less = true;
 				}
-				else if (new_node->data > current_node->data)
+				else if (greater(new_node->data,current_node->data))
 				{
 					previous_node = current_node;
 					current_node = current_node->right;
@@ -568,7 +567,7 @@ void test()
 	{
 		RBT<int> t;
 		for (int i : v)
-			t.Insert(i);
+			t.Insert(i, greater<int>);
 		++heights[t.findHeight(t.getRoot())];
 		++root_data[t.getRoot()->data];
 	} while (std::next_permutation(v.begin(), v.end()));

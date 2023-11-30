@@ -1,4 +1,4 @@
-// ALGO2 IS1 221A LAB03
+// ALGO2 IS1 221A LAB04
 // Wiktor Modzelewski
 // mw53766@zut.edu.pl
 #include <iostream>
@@ -584,11 +584,11 @@ int main()
 		clock_t t1 = clock();
 		for (int i = 0; i < n; i++)
 		{
-			int so = rand() % 10000000 + 1; // random data to insert
+			int so = rand() * rand() % 10000000 + 1; // random data to insert
 				rbt->insert(so, greater<int>);
 		}
 		clock_t t2 = clock();
-		std::cout << rbt->toString(rbt->getRoot()) << "\n";
+		//std::cout << rbt->toString(rbt->getRoot()) << "\n";
 		std::cout << "RBT size: " << rbt->getSize() << "\n";
 		std::cout << "Total time of inserting = " << ((t2 - t1) / (double)CLOCKS_PER_SEC) * 1000 << "ms\n";
 		std::cout << "Average time of inserting = " << ((t2 - t1) / (double)CLOCKS_PER_SEC) * 1000 / n << "ms\n";
@@ -599,7 +599,7 @@ int main()
 		t1 = clock();
 		for (int i = 0; i < m; i++)
 		{
-			int so = rand() % 10000000 + 1; // random data for searching
+			int so = rand() * rand() % 10000000 + 1; // random data for searching
 				Node<int>*result = rbt->getNode(so, greater<int>);
 			if (result != NULL)
 				hits++;
